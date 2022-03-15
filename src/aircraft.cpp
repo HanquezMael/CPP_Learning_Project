@@ -88,8 +88,13 @@ void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
     }
 }
 
-void Aircraft::move()
+bool Aircraft::move()
 {
+    if (must_be_deleted())
+    {
+        return false;
+    }
+
     if (waypoints.empty())
     {
         waypoints = control.get_instructions(*this);
@@ -107,6 +112,7 @@ void Aircraft::move()
             if (waypoints.front().is_at_terminal())
             {
                 arrive_at_terminal();
+                already_see_terminal = true;
             }
             else
             {
@@ -117,6 +123,7 @@ void Aircraft::move()
 
         if (is_on_ground())
         {
+            is_not_on_sky = true;
             if (!landing_gear_deployed)
             {
                 using namespace std::string_literals;
@@ -131,14 +138,21 @@ void Aircraft::move()
             {
                 pos.z() -= SINK_FACTOR * (SPEED_THRESHOLD - speed_len);
             }
+            is_not_on_sky = false;
         }
 
         // update the z-value of the displayable structure
         GL::Displayable::z = pos.x() + pos.y();
     }
+    return true;
 }
 
 void Aircraft::display() const
 {
     type.texture.draw(project_2D(pos), { PLANE_TEXTURE_DIM, PLANE_TEXTURE_DIM }, get_speed_octant());
+}
+
+bool Aircraft::must_be_deleted()
+{
+    return waypoints.empty() && already_see_terminal && !is_not_on_sky;
 }

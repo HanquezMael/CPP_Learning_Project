@@ -20,7 +20,9 @@ private:
     Tower& control;
     bool landing_gear_deployed = false; // is the landing gear deployed?
     bool is_at_terminal        = false;
-    bool already_land_once     = false;
+    bool need_to_be_destructed = false;
+    bool already_see_terminal  = false;
+    bool is_not_on_sky         = false;
 
     // turn the aircraft to arrive at the next waypoint
     // try to facilitate reaching the waypoint after the next by facing the
@@ -62,7 +64,9 @@ public:
     float distance_to(const Point3D& p) const { return pos.distance_to(p); }
 
     void display() const override;
-    void move() override;
+    bool move() override;
 
+    bool must_be_deleted();
+    Aircraft(Aircraft&&) = default; // constructeur par move
     friend class Tower;
 };

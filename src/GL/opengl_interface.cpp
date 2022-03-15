@@ -73,14 +73,19 @@ void display(void)
 
 void timer(const int step)
 {
+
     if (!paused)
     {
 
-        for (auto& item : move_queue)
+        for (auto it = move_queue.begin(); it != move_queue.end();
+             it++) // Notez bien le manque de l'incremenet ++it ici car on va incrementer
+                   // it selon la réponse de move()
         {
-            item->move();
+
+            (*it)->move();
         }
     }
+
     glutPostRedisplay();
     glutTimerFunc(1000u / ticks_per_sec, timer, step + 1);
 }
@@ -124,10 +129,15 @@ void pause()
 
 void increment_framerate()
 {
+
     ticks_per_sec += 1;
 }
 void decrement_framerate()
 {
     ticks_per_sec -= 1;
+    if (ticks_per_sec == 0)
+    {
+        ticks_per_sec = 1;
+    }
 }
 } // namespace GL
