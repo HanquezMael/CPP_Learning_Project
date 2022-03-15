@@ -11,7 +11,7 @@ class AircraftFactory
 
 private:
     const std::string airlines[8] = { "AF", "LH", "EY", "DL", "KL", "BA", "AY", "EY" };
-
+    std::unordered_set<std::string> name_already_attribued {};
     static constexpr size_t NUM_AIRCRAFT_TYPES = 3;
     std::array<AircraftType, NUM_AIRCRAFT_TYPES> aircraft_types {
         AircraftType { .02f, .05f, .02f, MediaPath { "l1011_48px.png" } },
