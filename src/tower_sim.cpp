@@ -70,11 +70,18 @@ void TowerSimulation::display_help() const
     std::cout << "This is an airport tower simulator" << std::endl
               << "the following keysstrokes have meaning:" << std::endl;
 
-    for (const auto& ks_pair : GL::keystrokes)
+    // sans structured binding
+    /*
+        for (const auto& ks_pair : GL::keystrokes)
+        {
+            std::cout << ks_pair.first << ' ';
+        }
+    */
+    // Avec structured binding
+    for (const auto& [value, key] : GL::keystrokes)
     {
-        std::cout << ks_pair.first << ' ';
+        std::cout << value << ' ';
     }
-
     std::cout << std::endl;
 }
 

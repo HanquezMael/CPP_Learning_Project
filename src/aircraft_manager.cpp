@@ -2,32 +2,42 @@
 
 #include "aircraft_factory.hpp"
 
+#include <algorithm> //pour std::remove_if
 #include <memory>
 
 // const std::string airlines[8] = { "AF", "LH", "EY", "DL", "KL", "BA", "AY", "EY" };
 
 bool AircraftManager::move()
-{
-    for (auto it = aircrafts.begin();
-         it != aircrafts.end();) // Notez bien le manque de l'incremenet ++it ici car on va incrementer it
-                                 // selon la réponse de move()
-    {
-        if (!(it->second)->move())
-        {
-            // ************* déjà fait TASK0 exo 5
-            //          display_queue.erase(*it);   // n'oubliez pas d'enlever l'objet de la display_queue;
-            //          (5) Faites en sort que ceci est fait automatiquement (par le destructeur)
-            // *************
 
-            // ***** gestion automatique par le destructeur de std::unqiue_ptr
-            //          delete *it;                 // c'est pas bien, mais necessaire parce qu'on a créé
-            //          l'avion via new.... cela change dès qu'on trouve un propre owner des avions (TASK1)
-            it = aircrafts.erase(it); // ici, on enleve *it de aircrafts d'une facon safe
-        }
-        else
-            ++it;
-    }
+{
+
+    aircrafts.erase(
+        std::remove_if(aircrafts.begin(), aircrafts.end(), [](auto& it) { return !(it.second)->move(); }),
+        aircrafts.end());
     return true;
+
+    /*
+      for (auto it = aircrafts.begin();
+           it != aircrafts.end();) // Notez bien le manque de l'incremenet ++it ici car on va incrementer it
+                                   // selon la réponse de move()
+      {
+
+          if (!(it->second)->move())
+          {
+              // ************* déjà fait TASK0 exo 5
+              //          display_queue.erase(*it);   // n'oubliez pas d'enlever l'objet de la display_queue;
+              //          (5) Faites en sort que ceci est fait automatiquement (par le destructeur)
+              // *************
+
+              // ***** gestion automatique par le destructeur de std::unqiue_ptr
+              //          delete *it;                 // c'est pas bien, mais necessaire parce qu'on a créé
+              //          l'avion via new.... cela change dès qu'on trouve un propre owner des avions (TASK1)
+              it = aircrafts.erase(it); // ici, on enleve *it de aircrafts d'une facon safe
+          }
+          else
+              ++it;
+      }
+      */
 }
 
 void AircraftManager::add_aircraft(std::unique_ptr<Aircraft> avion)
