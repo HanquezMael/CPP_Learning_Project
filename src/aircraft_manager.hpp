@@ -18,4 +18,5 @@ public:
 
     bool move() override;
     void add_aircraft(std::unique_ptr<Aircraft> avion); // std::move
+    void find_nb_aircraft_by_airline(const char c);
 };

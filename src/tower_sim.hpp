@@ -37,6 +37,8 @@ private:
 
     void init_airport();
 
+    void nb_of_aircraft_by_airline(const char c);
+
 public:
     TowerSimulation(int argc, char** argv);
     ~TowerSimulation();

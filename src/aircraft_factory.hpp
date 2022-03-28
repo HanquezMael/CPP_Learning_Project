@@ -10,7 +10,6 @@ class AircraftFactory
 {
 
 private:
-    const std::string airlines[8] = { "AF", "LH", "EY", "DL", "KL", "BA", "AY", "EY" };
     std::unordered_set<std::string> name_already_attribued {}; // Comme ca 0(1)
     static constexpr size_t NUM_AIRCRAFT_TYPES = 3;
     std::array<AircraftType, NUM_AIRCRAFT_TYPES> aircraft_types {
@@ -20,6 +19,7 @@ private:
     };
 
 public:
+    const std::string airlines[8] = { "AF", "LH", "EY", "DL", "KL", "BA", "AY", "EY" };
     std::unique_ptr<Aircraft> create_aircraft(const AircraftType& type, Tower& t);
     std::unique_ptr<Aircraft> create_random_aircraft(Tower& t); // peut etre non obliger
 };

@@ -63,6 +63,15 @@ void TowerSimulation::create_keystrokes()
     GL::keystrokes.emplace(' ', []() { GL::pause(); });
     GL::keystrokes.emplace('p', []() { GL::increment_framerate(); });
     GL::keystrokes.emplace('m', []() { GL::decrement_framerate(); });
+
+    GL::keystrokes.emplace('0', [this]() { nb_of_aircraft_by_airline('0'); });
+    GL::keystrokes.emplace('1', [this]() { nb_of_aircraft_by_airline('1'); });
+    GL::keystrokes.emplace('2', [this]() { nb_of_aircraft_by_airline('2'); });
+    GL::keystrokes.emplace('3', [this]() { nb_of_aircraft_by_airline('3'); });
+    GL::keystrokes.emplace('4', [this]() { nb_of_aircraft_by_airline('4'); });
+    GL::keystrokes.emplace('5', [this]() { nb_of_aircraft_by_airline('5'); });
+    GL::keystrokes.emplace('6', [this]() { nb_of_aircraft_by_airline('6'); });
+    GL::keystrokes.emplace('7', [this]() { nb_of_aircraft_by_airline('7'); });
 }
 
 void TowerSimulation::display_help() const
@@ -106,4 +115,9 @@ void TowerSimulation::launch()
     // init_aircraft_types();
 
     GL::loop();
+}
+
+void TowerSimulation::nb_of_aircraft_by_airline(const char c)
+{
+    aircraft_manager.find_nb_aircraft_by_airline(c);
 }

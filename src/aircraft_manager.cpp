@@ -3,9 +3,10 @@
 #include "aircraft_factory.hpp"
 
 #include <algorithm> //pour std::remove_if
+#include <cstring>
 #include <memory>
-
-// const std::string airlines[8] = { "AF", "LH", "EY", "DL", "KL", "BA", "AY", "EY" };
+const std::string airlines[8] = { "AF", "LH", "EY", "DL", "KL", "BA", "AY", "EY" }; // On le remet seuelement
+// pour compter les aircraft
 
 bool AircraftManager::move()
 
@@ -56,4 +57,17 @@ void AircraftManager::add_aircraft(std::unique_ptr<Aircraft> avion)
 */
     aircrafts.emplace_back(std::move(avion));
     // aircrafts2.emplace(avion->get_flight_num(), std::move(avion));
+}
+
+void AircraftManager::find_nb_aircraft_by_airline(const char c)
+{
+
+    int nb_aircrafts = std::count_if(
+        aircrafts.begin(), aircrafts.end(),
+        [c](auto& i)
+        {
+            return (i->get_flight_num().find(airlines[atoi(&c)]) == 0);
+        }); // ici il faudrait que airlines soit l'element de aircraft_factory mais je n'arrive pas
+
+    std::cout << "nombre d'avion pour airline " << airlines[atoi(&c)] << " : " << nb_aircrafts << std::endl;
 }
