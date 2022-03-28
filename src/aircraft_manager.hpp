@@ -4,13 +4,14 @@
 #include "aircraft.hpp"
 #include "aircraft_manager.hpp"
 
+#include <list>
 #include <memory>
-
 class AircraftManager : public GL::DynamicObject
 {
 
 private:
-    std::unordered_map<std::string, std::unique_ptr<Aircraft>> aircrafts;
+    std::list<std::unique_ptr<Aircraft>> aircrafts;
+    // std::unordered_map<std::string, std::unique_ptr<Aircraft>> aircrafts2; //avant
 
 public:
     AircraftManager() { GL::move_queue.insert(this); };

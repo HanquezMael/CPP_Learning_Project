@@ -10,9 +10,9 @@
 bool AircraftManager::move()
 
 {
-
+    // Passer sur un vector à la place d'un unordored map
     aircrafts.erase(
-        std::remove_if(aircrafts.begin(), aircrafts.end(), [](auto& it) { return !(it.second)->move(); }),
+        std::remove_if(aircrafts.begin(), aircrafts.end(), [](auto& it) { return !(it->move()); }),
         aircrafts.end());
     return true;
 
@@ -54,6 +54,6 @@ void AircraftManager::add_aircraft(std::unique_ptr<Aircraft> avion)
         std::make_pair(flight_number, std::make_unique<Aircraft>(type, flight_number, start, direction,
                                                                  t))); // cela compile... hurrah :)
 */
-
-    aircrafts.emplace(avion->get_flight_num(), std::move(avion));
+    aircrafts.emplace_back(std::move(avion));
+    // aircrafts2.emplace(avion->get_flight_num(), std::move(avion));
 }
