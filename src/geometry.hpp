@@ -4,6 +4,7 @@
 #include <array>
 #include <cassert>
 #include <cmath>
+#include <functional>
 #include <iostream>
 
 struct Point2D
@@ -64,7 +65,8 @@ struct Point2D
 
 struct Point3D
 {
-    float values[3] {};
+    std::array<float, 3> values;
+    // float values[3] {};
 
     Point3D() {}
     Point3D(float x, float y, float z) : values { x, y, z } {}
@@ -80,9 +82,13 @@ struct Point3D
 
     Point3D& operator+=(const Point3D& other)
     {
+        /*
         x() += other.x();
         y() += other.y();
         z() += other.z();
+        */
+
+        std::transform(other.values.begin(), other.values.end(), values.begin(), std::plus<float>());
         return *this;
     }
 
