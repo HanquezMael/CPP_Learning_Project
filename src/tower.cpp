@@ -64,3 +64,28 @@ void Tower::arrived_at_terminal(const Aircraft& aircraft)
     assert(it != reserved_terminals.end());
     airport.get_terminal(it->second).start_service(aircraft);
 }
+
+WaypointQueue Tower::reserve_terminal(Aircraft& aircraft)
+{
+    // not sure about it
+    if (!aircraft.is_at_terminal)
+    {
+        // get a path for the craft to start
+        const auto it = find_craft_and_terminal(aircraft);
+        assert(it != reserved_terminals.end());
+        const auto terminal_num = it->second;
+        Terminal& terminal      = airport.get_terminal(terminal_num);
+        if (!terminal.is_servicing())
+        {
+            terminal.finish_service();
+            reserved_terminals.erase(it);
+            aircraft.is_at_terminal = false;
+            return airport.start_path(terminal_num);
+        }
+        else
+        {
+            return {};
+        }
+    }
+    return {};
+}

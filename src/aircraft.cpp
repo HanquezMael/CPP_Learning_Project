@@ -180,3 +180,13 @@ bool Aircraft::update()
     }
     return false;
 }
+
+bool Aircraft::has_terminal() const
+{
+    return waypoints.back().type == wp_terminal;
+}
+
+bool Aircraft::is_circling() const
+{
+    return !has_terminal() && waypoints.back().type == wp_air && !already_see_terminal;
+}
