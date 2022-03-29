@@ -88,23 +88,33 @@ struct Point3D
         z() += other.z();
         */
 
-        std::transform(other.values.begin(), other.values.end(), values.begin(), std::plus<float>());
+        std::transform(other.values.begin(), other.values.end(), values.begin(), values.begin(),
+                       [](auto& i1, auto& i2) { return i2 + i1; });
         return *this;
     }
 
     Point3D& operator-=(const Point3D& other)
     {
+        /*
         x() -= other.x();
         y() -= other.y();
         z() -= other.z();
+        */
+
+        std::transform(other.values.begin(), other.values.end(), values.begin(), values.begin(),
+                       [](auto& i1, auto& i2) { return i2 - i1; });
         return *this;
     }
 
     Point3D& operator*=(const float scalar)
     {
+        /*
         x() *= scalar;
         y() *= scalar;
         z() *= scalar;
+        */
+        std::transform(values.begin(), values.end(), values.begin(),
+                       [scalar](auto& i) { return i * scalar; });
         return *this;
     }
 
