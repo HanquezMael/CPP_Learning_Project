@@ -23,6 +23,7 @@ private:
     bool need_to_be_destructed = false;
     bool already_see_terminal  = false;
     bool is_not_on_sky         = false;
+    int fuel                   = std::rand() % (3000 - 150) + 150;
 
     // turn the aircraft to arrive at the next waypoint
     // try to facilitate reaching the waypoint after the next by facing the
@@ -32,7 +33,7 @@ private:
     // = w1 + W*d/2
     void turn_to_waypoint();
     void turn(Point3D direction);
-
+    bool update();
     // select the correct tile in the plane texture (series of 8 sprites facing
     // [North, NW, W, SW, S, SE, E, NE])
     unsigned int get_speed_octant() const;

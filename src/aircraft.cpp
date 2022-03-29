@@ -90,61 +90,66 @@ void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
 
 bool Aircraft::move()
 {
-    if (must_be_deleted())
+    if (!update())
     {
-        return false;
-    }
 
-    if (waypoints.empty())
-    {
-        waypoints = control.get_instructions(*this);
-    }
-
-    if (!is_at_terminal)
-    {
-        turn_to_waypoint();
-        // move in the direction of the current speed
-        pos += speed;
-
-        // if we are close to our next waypoint, stike if off the list
-        if (!waypoints.empty() && distance_to(waypoints.front()) < DISTANCE_THRESHOLD)
+        if (must_be_deleted())
         {
-            if (waypoints.front().is_at_terminal())
+            return false;
+        }
+
+        if (waypoints.empty())
+        {
+            waypoints = control.get_instructions(*this);
+        }
+
+        if (!is_at_terminal)
+        {
+            turn_to_waypoint();
+            // move in the direction of the current speed
+            pos += speed;
+
+            // if we are close to our next waypoint, stike if off the list
+            if (!waypoints.empty() && distance_to(waypoints.front()) < DISTANCE_THRESHOLD)
             {
-                arrive_at_terminal();
-                already_see_terminal = true;
+                if (waypoints.front().is_at_terminal())
+                {
+                    arrive_at_terminal();
+                    already_see_terminal = true;
+                }
+                else
+                {
+                    operate_landing_gear();
+                }
+                waypoints.pop_front();
+            }
+
+            if (is_on_ground())
+            {
+                is_not_on_sky = true;
+                if (!landing_gear_deployed)
+                {
+                    using namespace std::string_literals;
+                    throw AircraftCrash { flight_number + " crashed into the ground"s };
+                }
             }
             else
             {
-                operate_landing_gear();
+                // if we are in the air, but too slow, then we will sink!
+                const float speed_len = speed.length();
+                if (speed_len < SPEED_THRESHOLD)
+                {
+                    pos.z() -= SINK_FACTOR * (SPEED_THRESHOLD - speed_len);
+                }
+                is_not_on_sky = false;
             }
-            waypoints.pop_front();
-        }
 
-        if (is_on_ground())
-        {
-            is_not_on_sky = true;
-            if (!landing_gear_deployed)
-            {
-                using namespace std::string_literals;
-                throw AircraftCrash { flight_number + " crashed into the ground"s };
-            }
+            // update the z-value of the displayable structure
+            GL::Displayable::z = pos.x() + pos.y();
         }
-        else
-        {
-            // if we are in the air, but too slow, then we will sink!
-            const float speed_len = speed.length();
-            if (speed_len < SPEED_THRESHOLD)
-            {
-                pos.z() -= SINK_FACTOR * (SPEED_THRESHOLD - speed_len);
-            }
-            is_not_on_sky = false;
-        }
-
-        // update the z-value of the displayable structure
-        GL::Displayable::z = pos.x() + pos.y();
+        return true;
     }
-    return true;
+    return false;
 }
 
 void Aircraft::display() const
@@ -155,4 +160,23 @@ void Aircraft::display() const
 bool Aircraft::must_be_deleted()
 {
     return waypoints.empty() && already_see_terminal && !is_not_on_sky;
+}
+
+bool Aircraft::update()
+{
+
+    if (!is_not_on_sky)
+    {
+        if (fuel > 0)
+        {
+            fuel -= 1;
+        }
+    }
+    if (fuel == 0)
+    {
+        std::cout << "L'avion " << flight_number << " n'a plus de fuel" << std::endl;
+
+        return true;
+    }
+    return false;
 }
