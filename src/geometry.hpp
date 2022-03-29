@@ -6,6 +6,7 @@
 #include <cmath>
 #include <functional>
 #include <iostream>
+#include <numeric>
 
 struct Point2D
 {
@@ -89,7 +90,9 @@ struct Point3D
         */
 
         std::transform(other.values.begin(), other.values.end(), values.begin(), values.begin(),
-                       [](auto& i1, auto& i2) { return i2 + i1; });
+                       [](auto& i1, auto& i2) {
+                           return i2 + i1;
+                       }); // On pourrait utiliser std::plus<float> si on inverse comme dans -=
         return *this;
     }
 
@@ -101,8 +104,8 @@ struct Point3D
         z() -= other.z();
         */
 
-        std::transform(other.values.begin(), other.values.end(), values.begin(), values.begin(),
-                       [](auto& i1, auto& i2) { return i2 - i1; });
+        std::transform(values.begin(), values.end(), other.values.begin(), values.begin(),
+                       std::minus<float>());
         return *this;
     }
 
@@ -114,7 +117,7 @@ struct Point3D
         z() *= scalar;
         */
         std::transform(values.begin(), values.end(), values.begin(),
-                       [scalar](auto& i) { return i * scalar; });
+                       [scalar](float& i) { return i * scalar; });
         return *this;
     }
 
@@ -141,7 +144,11 @@ struct Point3D
 
     Point3D operator-() const { return Point3D { -x(), -y(), -z() }; }
 
-    float length() const { return std::sqrt(x() * x() + y() * y() + z() * z()); }
+    float length() const
+    { /*return std::sqrt(x() * x() + y() * y() + z() * z());*/
+        return std::sqrt(std::accumulate(values.begin(), values.end(), 0.0,
+                                         [](float acc, float current) { return acc + (current * current); }));
+    }
 
     float distance_to(const Point3D& other) const { return (*this - other).length(); }
 
