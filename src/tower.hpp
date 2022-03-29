@@ -29,7 +29,6 @@ private:
         return std::find_if(reserved_terminals.begin(), reserved_terminals.end(),
                             [&aircraft](const auto& x) { return x.first == &aircraft; });
     }
-    WaypointQueue reserve_terminal(Aircraft& aircraft);
 
 public:
     Tower(Airport& airport_) : airport { airport_ } {}
@@ -37,4 +36,5 @@ public:
     // produce instructions for aircraft
     WaypointQueue get_instructions(Aircraft& aircraft);
     void arrived_at_terminal(const Aircraft& aircraft);
+    WaypointQueue reserve_terminal(Aircraft& aircraft);
 };

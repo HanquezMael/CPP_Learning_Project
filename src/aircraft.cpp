@@ -98,6 +98,14 @@ bool Aircraft::move()
             return false;
         }
 
+        if (is_circling())
+        {
+            if (!control.reserve_terminal(*this).empty())
+            {
+                waypoints = control.reserve_terminal(*this);
+            }
+        }
+
         if (waypoints.empty())
         {
             waypoints = control.get_instructions(*this);
