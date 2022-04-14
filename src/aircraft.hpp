@@ -23,7 +23,6 @@ private:
     bool need_to_be_destructed = false;
     bool already_see_terminal  = false;
     bool is_not_on_sky         = false;
-    int fuel                   = std::rand() % (3000 - 150) + 150;
 
     // turn the aircraft to arrive at the next waypoint
     // try to facilitate reaching the waypoint after the next by facing the
@@ -62,7 +61,8 @@ public:
     {
         speed.cap_length(max_speed());
     }
-
+    int fuel      = std::rand() % (3000 - 150) + 150;
+    bool reserved = false;
     const std::string& get_flight_num() const { return flight_number; }
     float distance_to(const Point3D& p) const { return pos.distance_to(p); }
 

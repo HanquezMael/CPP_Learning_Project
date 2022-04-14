@@ -2,15 +2,29 @@
 
 #include "aircraft_factory.hpp"
 
-#include <algorithm> //pour std::remove_if
+#include <algorithm> //pour std::remove_if et std::sort
 #include <cstring>
 #include <memory>
 const std::string airlines[8] = { "AF", "LH", "EY", "DL", "KL", "BA", "AY", "EY" }; // On le remet seuelement
 // pour compter les aircraft
 
+bool sort_by_fuel(std::unique_ptr<Aircraft>& a, std::unique_ptr<Aircraft>& b)
+{
+
+    return a->fuel < b->fuel;
+}
+
 bool AircraftManager::move()
 
 {
+    // C minimiser les crashs
+    aircrafts.sort(sort_by_fuel);
+    std::cout << "List" << std::endl;
+    for (auto const& i : aircrafts)
+    {
+        std::cout << i->fuel << std::endl;
+    }
+
     // Passer sur un vector à la place d'un unordored map
     aircrafts.erase(
         std::remove_if(aircrafts.begin(), aircrafts.end(), [](auto& it) { return !(it->move()); }),

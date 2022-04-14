@@ -98,12 +98,15 @@ bool Aircraft::move()
             return false;
         }
 
-        if (is_circling())
+        if (!waypoints.empty())
         {
-            WaypointQueue res = control.reserve_terminal(*this);
-            if (!res.empty())
+            if (is_circling())
             {
-                waypoints = res;
+                WaypointQueue res = control.reserve_terminal(*this);
+                if (!res.empty())
+                {
+                    waypoints = res;
+                }
             }
         }
 
@@ -192,6 +195,7 @@ bool Aircraft::update()
 
 bool Aircraft::has_terminal() const
 {
+
     return waypoints.back().type == wp_terminal;
 }
 
