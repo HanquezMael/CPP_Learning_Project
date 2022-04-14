@@ -13,16 +13,38 @@ bool sort_by_fuel(std::unique_ptr<Aircraft>& a, std::unique_ptr<Aircraft>& b)
 
     return a->fuel < b->fuel;
 }
+// Work not as expected
+bool sort_by_reserved(std::unique_ptr<Aircraft>& a, std::unique_ptr<Aircraft>& b)
+{
+    if (a->reserved && !b->reserved)
+    {
+        return a->reserved > b->reserved;
+    }
+    if (!a->reserved && b->reserved)
+    {
+        return b->reserved > a->reserved;
+    }
+    if (a->reserved == b->reserved)
+    {
+        std::cout << "coucou" << std::endl;
+
+        return sort_by_fuel(a, b);
+    }
+
+    return sort_by_fuel(a, b); // n'arrive jamais tant mieux
+}
 
 bool AircraftManager::move()
 
 {
     // C minimiser les crashs
-    aircrafts.sort(sort_by_fuel);
+    aircrafts.sort(sort_by_reserved);
+    // pour tester comment sont trier les avions.
+
     std::cout << "List" << std::endl;
     for (auto const& i : aircrafts)
     {
-        std::cout << i->fuel << std::endl;
+        std::cout << "reserved = " << i->reserved << " fuel = " << i->fuel << std::endl;
     }
 
     // Passer sur un vector à la place d'un unordored map

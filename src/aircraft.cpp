@@ -98,7 +98,7 @@ bool Aircraft::move()
             return false;
         }
 
-        if (!waypoints.empty())
+        if (!waypoints.empty() && !reserved)
         {
             if (is_circling())
             {
@@ -106,6 +106,7 @@ bool Aircraft::move()
                 if (!res.empty())
                 {
                     waypoints = res;
+                    reserved  = true;
                 }
             }
         }
