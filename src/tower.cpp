@@ -67,25 +67,21 @@ void Tower::arrived_at_terminal(const Aircraft& aircraft)
 
 WaypointQueue Tower::reserve_terminal(Aircraft& aircraft)
 {
-    // not sure about it
     if (!aircraft.is_at_terminal)
     {
-        // get a path for the craft to start
-        const auto it = find_craft_and_terminal(aircraft);
-        assert(it != reserved_terminals.end());
-        const auto terminal_num = it->second;
-        Terminal& terminal      = airport.get_terminal(terminal_num);
-        if (!terminal.is_servicing())
+        // if the aircraft is far, then just guide it to the airport vicinity
+        if (aircraft.distance_to(airport.pos) < 5)
         {
-            terminal.finish_service();
-            reserved_terminals.erase(it);
-            aircraft.is_at_terminal = false;
-            return airport.start_path(terminal_num);
+            // try and reserve a terminal for the craft to land
+            const auto vp = airport.reserve_terminal(aircraft);
+            if (!vp.first.empty())
+            {
+                reserved_terminals.emplace_back(&aircraft, vp.second);
+                return vp.first;
+            }
+            return WaypointQueue {};
         }
-        else
-        {
-            return {};
-        }
+        return WaypointQueue {};
     }
-    return {};
+    return WaypointQueue {};
 }

@@ -100,9 +100,10 @@ bool Aircraft::move()
 
         if (is_circling())
         {
-            if (!control.reserve_terminal(*this).empty())
+            WaypointQueue res = control.reserve_terminal(*this);
+            if (!res.empty())
             {
-                waypoints = control.reserve_terminal(*this);
+                waypoints = res;
             }
         }
 
@@ -196,5 +197,5 @@ bool Aircraft::has_terminal() const
 
 bool Aircraft::is_circling() const
 {
-    return !has_terminal() && waypoints.back().type == wp_air && !already_see_terminal;
+    return !has_terminal() && !already_see_terminal && waypoints.back().type == wp_air;
 }
