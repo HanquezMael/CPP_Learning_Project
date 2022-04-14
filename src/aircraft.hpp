@@ -69,6 +69,7 @@ public:
     void display() const override;
     bool move() override;
 
+    bool is_low_on_fuel() const;
     bool must_be_deleted();
     Aircraft(Aircraft&&) = default; // constructeur par move
     friend class Tower;

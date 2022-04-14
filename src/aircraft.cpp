@@ -204,3 +204,8 @@ bool Aircraft::is_circling() const
 {
     return !has_terminal() && !already_see_terminal && waypoints.back().type == wp_air;
 }
+
+bool Aircraft::is_low_on_fuel() const
+{
+    return fuel < 200;
+}

@@ -32,6 +32,7 @@ public:
 
     void finish_service()
     {
+
         if (!is_servicing())
         {
             std::cout << "done servicing " << current_aircraft->get_flight_num() << '\n';
@@ -41,7 +42,7 @@ public:
 
     bool move() override
     {
-        if (in_use() && is_servicing())
+        if (in_use() && is_servicing() && !current_aircraft->is_low_on_fuel())
         {
             ++service_progress;
         }

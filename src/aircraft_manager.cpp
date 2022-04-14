@@ -26,7 +26,6 @@ bool sort_by_reserved(std::unique_ptr<Aircraft>& a, std::unique_ptr<Aircraft>& b
     }
     if (a->reserved == b->reserved)
     {
-        std::cout << "coucou" << std::endl;
 
         return sort_by_fuel(a, b);
     }
