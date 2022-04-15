@@ -3,6 +3,7 @@
 #include "GL/displayable.hpp"
 #include "GL/dynamic_object.hpp"
 #include "GL/texture.hpp"
+#include "aircraft_manager.hpp"
 #include "airport_type.hpp"
 #include "geometry.hpp"
 #include "img/image.hpp"
@@ -21,6 +22,10 @@ private:
     std::vector<Terminal> terminals;
     Tower tower;
 
+    // Task2Obj2D3
+    int fuel_stock       = 0;
+    int ordered_fuel     = 0;
+    int next_refill_time = 0;
     // reserve a terminal
     // if a terminal is free, return
     // 1. a sequence of waypoints reaching the terminal from the runway-end and
