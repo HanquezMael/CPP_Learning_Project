@@ -68,8 +68,9 @@ public:
 
     void display() const override;
     bool move() override;
-    bool is_stuck_at_terminal();
+    bool is_stuck_at_terminal(); // task2obj2d2
     bool is_low_on_fuel() const;
+    void refill(int& fuel_stock);
     bool must_be_deleted();
     Aircraft(Aircraft&&) = default; // constructeur par move
     friend class Tower;
