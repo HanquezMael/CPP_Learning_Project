@@ -106,3 +106,15 @@ void AircraftManager::find_nb_aircraft_by_airline(const char c)
 
     std::cout << "nombre d'avion pour airline " << airlines[atoi(&c)] << " : " << nb_aircrafts << std::endl;
 }
+// Task2 Objectif2 D2
+int AircraftManager::get_required_fuel()
+{
+    for (auto& aircraft : aircrafts)
+    {
+        if (aircraft->is_stuck_at_terminal())
+        {
+            return 3000 - aircraft->fuel;
+        }
+    }
+    return 0;
+}

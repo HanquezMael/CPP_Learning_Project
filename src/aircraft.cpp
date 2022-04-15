@@ -209,3 +209,9 @@ bool Aircraft::is_low_on_fuel() const
 {
     return fuel < 200;
 }
+
+bool Aircraft::is_stuck_at_terminal()
+{
+
+    return is_low_on_fuel() && is_at_terminal;
+}
