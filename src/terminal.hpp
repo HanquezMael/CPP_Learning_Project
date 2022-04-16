@@ -9,8 +9,8 @@
 class Terminal : public GL::DynamicObject
 {
 private:
-    unsigned int service_progress    = SERVICE_CYCLES;
-    const Aircraft* current_aircraft = nullptr;
+    unsigned int service_progress = SERVICE_CYCLES;
+    Aircraft* current_aircraft    = nullptr; // no more const for d5
     const Point3D pos;
 
     Terminal(const Terminal&) = delete;
@@ -21,7 +21,7 @@ public:
 
     bool in_use() const { return current_aircraft != nullptr; }
     bool is_servicing() const { return service_progress < SERVICE_CYCLES; }
-    void assign_craft(const Aircraft& aircraft) { current_aircraft = &aircraft; }
+    void assign_craft(Aircraft& aircraft) { current_aircraft = &aircraft; } // no more const aswell
 
     void start_service(const Aircraft& aircraft)
     {
@@ -47,5 +47,13 @@ public:
             ++service_progress;
         }
         return true;
+    }
+    // Task2Obj2D5 il faut changer current_aircraft pour qu'il ne soit pas const sinon on ne pas le refill
+    void refill_aircraft_if_needed(int& fuel_stock)
+    {
+        if (current_aircraft->is_low_on_fuel())
+        {
+            current_aircraft->refill(fuel_stock);
+        }
     }
 };
