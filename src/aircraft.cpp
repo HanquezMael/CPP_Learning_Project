@@ -220,16 +220,22 @@ bool Aircraft::is_stuck_at_terminal()
 void Aircraft::refill(int& fuel_stock)
 {
 
-    int cpt = 0;
-    if (fuel < 3000)
+    int cpt         = 0;
+    int fuel_needed = 3000 - fuel;
+    if (fuel_stock - fuel_needed > 0)
     {
-
-        if (fuel_stock > 0)
-        {
-            fuel++;
-            cpt++;
-            fuel_stock--;
-        }
+        fuel += fuel_needed;
+        cpt = fuel_needed;
+        fuel_stock -= fuel_needed;
     }
-    std::cout << get_flight_num() << " as refill: " << cpt << std::endl;
+    else
+    {
+        fuel += fuel_stock;
+        cpt        = fuel_stock;
+        fuel_stock = 0;
+    }
+    if (cpt > 0)
+    {
+        std::cout << get_flight_num() << " as refill: " << cpt << std::endl;
+    }
 }

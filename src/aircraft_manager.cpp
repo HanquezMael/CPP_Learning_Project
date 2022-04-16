@@ -39,6 +39,7 @@ bool AircraftManager::move()
     // C minimiser les crashs
     aircrafts.sort(sort_by_reserved);
     // pour tester comment sont trier les avions.
+    // ça marche pas bien
 
     std::cout << "List" << std::endl;
     for (auto const& i : aircrafts)

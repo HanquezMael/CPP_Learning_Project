@@ -83,11 +83,7 @@ public:
             {
 
                 fuel_stock += ordered_fuel;
-                std::cout << "Ordered_fuel avant = " << ordered_fuel << std::endl;
-                // std::cout << get_required_fuel() << std::endl;
-
-                ordered_fuel = std::min(am.get_required_fuel(), 5000);
-                std::cout << "Ordered_fuel apres = " << ordered_fuel << std::endl;
+                ordered_fuel     = std::min(am.get_required_fuel(), 5000);
                 next_refill_time = 100;
             }
             else
@@ -97,7 +93,6 @@ public:
 
             if (t.current_aircraft != nullptr && t.current_aircraft->is_stuck_at_terminal())
             {
-                std::cout << "JE SUIS BLOQUERRRRRRRRRRRRRR" << std::endl;
 
                 t.refill_aircraft_if_needed(fuel_stock);
             }
