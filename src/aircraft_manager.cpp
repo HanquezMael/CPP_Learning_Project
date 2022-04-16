@@ -109,9 +109,11 @@ void AircraftManager::find_nb_aircraft_by_airline(const char c)
 // Task2 Objectif2 D2
 int AircraftManager::get_required_fuel()
 {
+
     int res = 0;
     for (auto& aircraft : aircrafts)
     {
+
         if (aircraft->is_stuck_at_terminal())
         {
             res += 3000 - aircraft->fuel;

@@ -23,9 +23,9 @@ private:
     ContextInitializer context_initializer;
     bool help        = false;
     Airport* airport = nullptr;
-    AircraftManager aircraft_manager {}; // new
-    AircraftFactory aircraft_factory {}; // new
 
+    AircraftFactory aircraft_factory {}; // new
+    AircraftManager aircraft_manager {}; // new
     TowerSimulation(const TowerSimulation&) = delete;
     TowerSimulation& operator=(const TowerSimulation&) = delete;
 

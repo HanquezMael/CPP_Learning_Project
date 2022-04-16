@@ -221,8 +221,9 @@ void Aircraft::refill(int& fuel_stock)
 {
 
     int cpt = 0;
-    while (fuel < 3000)
+    if (fuel < 3000)
     {
+
         if (fuel_stock > 0)
         {
             fuel++;
