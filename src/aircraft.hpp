@@ -61,7 +61,7 @@ public:
     {
         speed.cap_length(max_speed());
     }
-    int fuel      = 300; // std::rand() % (3000 - 150) + 150;
+    int fuel      = std::rand() % (3000 - 150) + 150;
     bool reserved = false;
     const std::string& get_flight_num() const { return flight_number; }
     float distance_to(const Point3D& p) const { return pos.distance_to(p); }

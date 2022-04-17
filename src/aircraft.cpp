@@ -1,6 +1,7 @@
 #include "aircraft.hpp"
 
 #include "GL/opengl_interface.hpp"
+#include "tower_sim.hpp"
 
 #include <cmath>
 
@@ -143,6 +144,7 @@ bool Aircraft::move()
                 if (!landing_gear_deployed)
                 {
                     using namespace std::string_literals;
+                    // increment_crash_cpt(); //Fonctionne pas comme prévu Task3 2 cpt
                     throw AircraftCrash { flight_number + " crashed into the ground"s };
                 }
             }

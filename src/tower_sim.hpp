@@ -23,7 +23,7 @@ private:
     ContextInitializer context_initializer;
     bool help        = false;
     Airport* airport = nullptr;
-
+    int crash_cpt    = 0;                // Task3 O1 2
     AircraftFactory aircraft_factory {}; // new
     AircraftManager aircraft_manager {}; // new
     TowerSimulation(const TowerSimulation&) = delete;
@@ -38,10 +38,11 @@ private:
     void init_airport();
 
     void nb_of_aircraft_by_airline(const char c);
+    void nb_of_crashs(); // Task3 O1 2
 
 public:
     TowerSimulation(int argc, char** argv);
     ~TowerSimulation();
-
+    void increment_crash_cpt(); // Task3 O1 2
     void launch();
 };

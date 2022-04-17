@@ -63,7 +63,7 @@ void TowerSimulation::create_keystrokes()
     GL::keystrokes.emplace(' ', []() { GL::pause(); });
     GL::keystrokes.emplace('p', []() { GL::increment_framerate(); });
     GL::keystrokes.emplace('m', []() { GL::decrement_framerate(); });
-
+    GL::keystrokes.emplace('l', [this]() { nb_of_crashs(); }); // Task3 O1 2
     GL::keystrokes.emplace('0', [this]() { nb_of_aircraft_by_airline('0'); });
     GL::keystrokes.emplace('1', [this]() { nb_of_aircraft_by_airline('1'); });
     GL::keystrokes.emplace('2', [this]() { nb_of_aircraft_by_airline('2'); });
@@ -121,4 +121,14 @@ void TowerSimulation::launch()
 void TowerSimulation::nb_of_aircraft_by_airline(const char c)
 {
     aircraft_manager.find_nb_aircraft_by_airline(c);
+}
+
+void TowerSimulation::nb_of_crashs()
+{
+    std::cout << "Il y a eu: " << crash_cpt << " crash d'avion" << std::endl;
+}
+
+void TowerSimulation::increment_crash_cpt()
+{
+    crash_cpt++;
 }
